@@ -68,15 +68,14 @@ button:hover {
 
 a {
     text-decoration: none;
-    color: #b43e63; /* tom mais escuro e romântico */
+    color: #b43e63;
     font-family: 'Segoe UI', sans-serif;
 }
 
 a:hover {
     text-decoration: underline;
-    color: #a33357; /* tom um pouco mais escuro ao passar o mouse */
+    color: #a33357;
 }
-
 
 .botoes form {
     margin: 10px 0;
@@ -98,7 +97,6 @@ a:hover {
     background-color: #ff69b4;
 }
 
-
 .adicionar {
     margin-top: 30px;
     text-align: center;
@@ -118,7 +116,6 @@ a:hover {
 .adicionar a:hover {
     background-color: #e55ca1;
 }
-
 
 .tempo-juntos {
     background: #ffe6f0;
@@ -142,17 +139,17 @@ a:hover {
     list-style: none;
     padding: 0;
     font-size: 18px;
-  }
-  
-  .lista li {
+}
+
+.lista li {
     background-color: #ffe0eb;
     margin: 10px 0;
     padding: 14px;
     border-radius: 12px;
     box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .voltar {
+}
+
+.voltar {
     display: inline-block;
     margin-top: 20px;
     background-color: #d6336c;
@@ -161,9 +158,9 @@ a:hover {
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-  }
- 
-  ul {
+}
+
+ul {
     list-style-type: disc;
     list-style-position: inside;
     padding-left: 0;
@@ -176,16 +173,11 @@ li {
     margin-bottom: 0.5rem;
     line-height: 1.5;
     text-decoration: none;
-    color: #b43e63; /* tom mais escuro e romântico */
+    color: #b43e63;
     font-family: 'Segoe UI', sans-serif;
 }
 
-
-
-
-
-
-  .carta {
+.carta {
     margin-bottom: 20px;
     border-bottom: 1px dashed #ccc;
     padding-bottom: 10px;
@@ -215,7 +207,6 @@ details.carta[open] p {
     display: block;
 }
 
-
 details.carta {
     margin-bottom: 20px;
     border: 1px solid #ffdce0;
@@ -243,5 +234,57 @@ summary.titulo-carta::marker {
     line-height: 1.5;
 }
 
-  
 
+/* RESPONSIVO PARA CELULAR */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+        height: auto;
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 12px;
+        padding: 20px 15px;
+        box-shadow: none;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .tempo-juntos {
+        font-size: 14px;
+        padding: 12px;
+        margin: 10px 0 20px;
+    }
+
+    .botoes button {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    .adicionar a {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .lista {
+        font-size: 16px;
+    }
+
+    .voltar {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+
+    summary.titulo-carta {
+        font-size: 1rem;
+    }
+
+    .conteudo-carta {
+        font-size: 0.95rem;
+    }
+}
