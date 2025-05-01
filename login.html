@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h2>Bem-vinda ao coração do Vitor 💖</h2>
+    <form onsubmit="return verificarNome()">
+        <input type="text" id="nome" placeholder="Seu nome" required>
+        <button type="submit">Entrar</button>
+    </form>
+    <div class="erro" id="mensagem-erro" style="display:none;">Nome incorreto. Tente "Camila Mota Costa".</div>
+</div>
+
+<script>
+    function verificarNome() {
+        const nome = document.getElementById("nome").value.trim().toLowerCase();
+        if (nome === "camila mota costa") {
+            window.location.href = "dashboard.html";
+            return false;
+        } else {
+            document.getElementById("mensagem-erro").style.display = "block";
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

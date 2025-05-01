@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Coração</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h2>Bem-vinda ao coração do Vitor 💘</h2>
+       <div class="tempo-juntos">
+            <span class="emoji">♥</span>
+            Nós conhecemos há <span id="dias">0</span> dias,
+            <span id="horas">0</span> horas,
+            <span id="minutos">0</span> minutos e
+            <span id="segundos">0</span> segundos!
+        </div>
+
+        <div class="tempo-juntos">
+            <span class="emoji">📅</span>
+            Senti o doce toque dos seus lábios há <span id="contadorData"></span>
+        </div>
+
+    <div class="botoes">
+
+        <a href="porques.html"><button>💌 Por que te amo</button></a>
+        <a href="razoes.html"><button>😊 Razões que me fazem sorrir</button></a>
+        <a href="musicas.html"><button>🎶 Músicas que me lembram você</button></a>
+        <a href="cartinhas.html"><button>📝 Cartinhas pra você</button></a>
+
+        <form onsubmit="alert('Em breve, adiado até ordem maior'); return false;">
+            <button type="submit">💍 ?</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const dataInicial = new Date("2025-02-20T18:39:00");
+
+    function atualizarContador() {
+        const agora = new Date();
+        const diferenca = agora - dataInicial;
+
+        const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+        const segundos = Math.floor((diferenca / 1000) % 60);
+
+        document.getElementById('dias').textContent = dias;
+        document.getElementById('horas').textContent = horas;
+        document.getElementById('minutos').textContent = minutos;
+        document.getElementById('segundos').textContent = segundos;
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+
+    function atualizarContadorPersonalizado() {
+        const dataAlvo = new Date('2025-03-12');
+        const hoje = new Date();
+        const diffTime = Math.abs(hoje - dataAlvo);
+        const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        document.getElementById("contadorData").textContent = `${diffDias} dias`;
+    }
+
+    atualizarContadorPersonalizado();
+</script>
+</body>
+</html>
