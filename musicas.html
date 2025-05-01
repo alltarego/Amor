@@ -6,6 +6,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <script>
+        if (localStorage.getItem("logada") !== "true") {
+          window.location.href = "login.html";
+        }
+      </script>
   <div class="container">
     <h2>🎶 Músicas que me lembram você</h2>
     <ul class="lista">
