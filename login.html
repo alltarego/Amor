@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -20,6 +19,7 @@
     function verificarNome() {
         const nome = document.getElementById("nome").value.trim().toLowerCase();
         if (nome === "camila mota costa") {
+            localStorage.setItem("logada", "true");
             window.location.href = "dashboard.html";
             return false;
         } else {
@@ -30,3 +30,4 @@
 </script>
 </body>
 </html>
+
