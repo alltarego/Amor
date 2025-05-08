@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido Especial</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Reutiliza o seu CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("r5b46ShX-9PPQ8TDZ"); // Seu User ID (API Key)
+    })();
+  </script>
+</head>
+<body>
+  <div class="pedido-container">
+    <h1>Quer namorar comigo? 💖</h1>
+    <form id="pedidoForm">
+      <label>
+        <input type="radio" name="resposta" value="Sim"> Sim
+      </label>
+      <label>
+        <input type="radio" name="resposta" value="Claro"> Claro
+      </label>
+      <button type="submit" disabled>Enviar Resposta</button>
+    </form>
+
+    <form action="dashboard.html" method="get">
+        <button type="submit">⬅ Voltar</button>
+    </form>
+    <p id="mensagem"></p>
+ 
+        
+        
+  </div>
+
+  <script>
+    const form = document.getElementById("pedidoForm");
+    const btn = form.querySelector("button");
+    const msg = document.getElementById("mensagem");
+
+    form.addEventListener("change", () => {
+      btn.disabled = false;
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+    const resposta = formData.get("resposta");
+
+    if (!resposta) {
+      msg.textContent = "Escolha uma resposta antes de enviar.";
+      return;
+    }
+
+      emailjs.send("service_gc8my98", "template_qqvh9ic", {
+        resposta: resposta,
+      }).then(() => {
+        msg.textContent = "Resposta enviada com sucesso! 💌";
+        form.reset();
+        btn.disabled = true;
+      }).catch((error) => {
+        msg.textContent = "Erro ao enviar. Tente novamente.";
+        console.error("Erro:", error);
+      });
+    });
+  </script>
+</body>
+</html>
