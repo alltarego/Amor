@@ -288,3 +288,55 @@ summary.titulo-carta::marker {
         font-size: 0.95rem;
     }
 }
+
+.pedido-container {
+    background-color: #ffffffcc;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.pedido-container h1 {
+    color: #d6336c;
+    margin-bottom: 30px;
+}
+
+.pedido-container label {
+    display: block;
+    margin: 15px 0;
+    font-size: 18px;
+    color: #b43e63;
+}
+
+.pedido-container input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #ff6fc8;
+}
+
+.pedido-container button {
+    margin-top: 20px;
+    background-color: #ff6fc8;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pedido-container button:hover {
+    background-color: #ff4e9b;
+}
+
+#mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #d80073;
+}
+
+
