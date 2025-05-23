@@ -27,13 +27,21 @@
             Senti o doce toque dos seus lábios há <span id="contadorData"></span>
         </div>
 
+    <!--<div class="tempo-juntos">
+        <span class="emoji">💑</span>
+        Desde que começamos a namorar:
+        <span id="namoroDias">0</span> dias,
+        <span id="namoroHoras">0</span> horas,
+        <span id="namoroMinutos">0</span> minutos e
+        <span id="namoroSegundos">0</span> segundos!
+    </div>-->
+
     <div class="botoes">
 
         <a href="porques.html"><button>💌 Por que te amo</button></a>
         <a href="razoes.html"><button>😊 Razões que me fazem sorrir</button></a>
         <a href="musicas.html"><button>🎶 Músicas que me lembram você</button></a>
         <a href="cartinhas.html"><button>📝 Cartinhas pra você</button></a>
-
         <form action="pedido.html">
             <button type="submit">💍 ?</button>
         </form>  
@@ -57,7 +65,6 @@
         document.getElementById('minutos').textContent = minutos;
         document.getElementById('segundos').textContent = segundos;
     }
-
     atualizarContador();
     setInterval(atualizarContador, 1000);
 
@@ -68,8 +75,29 @@
         const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         document.getElementById("contadorData").textContent = `${diffDias} dias`;
     }
-
     atualizarContadorPersonalizado();
+
+    const inicioNamoro = new Date("2025-05-23T22:00:00");
+
+function atualizarContadorNamoro() {
+    const agora = new Date();
+    const diferenca = agora - inicioNamoro;
+
+    const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferenca / 1000) % 60);
+
+    document.getElementById('namoroDias').textContent = dias;
+    document.getElementById('namoroHoras').textContent = horas;
+    document.getElementById('namoroMinutos').textContent = minutos;
+    document.getElementById('namoroSegundos').textContent = segundos;
+}
+
+    atualizarContadorNamoro();
+    setInterval(atualizarContadorNamoro, 1000);
+
+    
 </script>
 </body>
 </html>
