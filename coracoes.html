@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corações para Você</title>
+  <style>
+    :root {
+      --matrix-txt: #e91e63;
+    }
+
+    body {
+      margin: 0;
+      background-color: #000;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .Love__You {
+      color: var(--matrix-txt);
+      justify-content: center;
+      font-family: "Arial", sans-serif;
+      display: flex;
+      min-height: 100vh;
+      padding: 1rem;
+      margin-top: 50px;
+      align-items: center;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .floating-heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--matrix-txt);
+      transform: rotate(45deg);
+      animation: floatUp 1s ease-out forwards;
+      pointer-events: none;
+    }
+
+    .floating-heart::before,
+    .floating-heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--matrix-txt);
+      border-radius: 50%;
+    }
+
+    .floating-heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .floating-heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-100px) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="Love__You">
+    Te amo mais do que palavras podem dizer 
+  </div>
+
+  <script>
+    function spawnHeart(x, y) {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.style.left = `${x}px`;
+      heart.style.top = `${y}px`;
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1000);
+    }
+
+    // Desktop
+    document.body.addEventListener('mousemove', (e) => {
+      spawnHeart(e.pageX, e.pageY);
+    });
+
+    // Mobile
+    document.body.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      spawnHeart(touch.pageX, touch.pageY);
+    });
+
+    document.body.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      spawnHeart(touch.pageX, touch.pageY);
+    });
+  </script>
+</body>
+</html>
