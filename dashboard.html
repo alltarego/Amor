@@ -2,9 +2,22 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
+    <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
     <title>Coração</title>
     <link rel="stylesheet" href="styles.css">
+
+    <script>
+    function abrirNoDiaDozeOuDepois() {
+      const hoje = new Date();
+      const liberarEm = new Date(2025, 5, 12); 
+      if (hoje >= liberarEm) {
+        window.location.href = "carta.html";
+      } else {
+        window.location.href = "diadoze.html";
+      }
+    }
+  </script>
+
 </head>
 <body>
     <script>
@@ -13,9 +26,9 @@
         }
       </script>
 <div class="container">
-    <h2>Bem-vinda ao coração do Vitor 💘</h2>
+    <h2>Bem-vinda ao coração do Vitor </h2>
        <div class="tempo-juntos">
-            <span class="emoji">♥</span>
+            <img src="imgs/cupid.png" alt="coração" class="emoji"> <br> 
             Minha vida mudou há <span id="dias">0</span> dias,
             <span id="horas">0</span> horas,
             <span id="minutos">0</span> minutos e
@@ -23,12 +36,12 @@
         </div>
 
         <div class="tempo-juntos">
-            <span class="emoji">📅</span>
+            <img src="imgs/calendar.png" alt="calendar" class="emoji"> <br> 
             Senti o doce toque dos seus lábios há <span id="contadorData"></span>
         </div>
 
     <div class="tempo-juntos">
-        <span class="emoji">💑</span>
+        <img src="imgs/couple.png" alt="casal" class="emoji"> <br>
         Desde que começamos a namorar:
         <span id="namoroDias">0</span> dias,
         <span id="namoroHoras">0</span> horas,
@@ -38,12 +51,13 @@
 
     <div class="botoes">
     
-        <a href="porques.html"><button>💌 Por que te amo</button></a>
-        <a href="razoes.html"><button>😊 Razões que me fazem sorrir</button></a>
-        <a href="musicas.html"><button>🎶 Músicas que me lembram você</button></a>
-        <a href="cartinhas.html"><button>📝 Cartinhas pra você</button></a>
-        <a href="coracoes.html"><button> 💕 Corações </button></a>
-        <a href="pedido.html"><button>💍 ?</button></a>
+        <a href="porques.html"><button>  <img src="imgs/heart.png" alt="coração" class="emoji"></button></a>
+        <a href="razoes.html"><button> <img src="imgs/smile.png" alt="sorriso" class="emoji"></button></a>
+        <a href="musicas.html"><button> <img src="imgs/music.png" alt="música" class="emoji"></button></a>
+        <a href="cartinhas.html"><button> <img src="imgs/love-letter.png" alt="carta" class="emoji"></button></a>
+        <a href="coracoes.html"><button> <img src="imgs/hearts.png" alt="corações" class="emoji"></button></a>
+        <button onclick="abrirNoDiaDozeOuDepois()"> <img src="imgs/doze.png" alt="doze" class="emoji"> </button>
+        <a href="pedido.html"><button> <img src="imgs/ring.png" alt="anel" class="emoji"></button></a> 
     </div>
 </div>
 
