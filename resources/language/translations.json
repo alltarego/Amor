@@ -1,0 +1,19 @@
+{
+  "globals": {
+    "name": "CAMILA M COSTA"
+  },
+  "pt-br": {
+    "index": {
+      "title": "VOCÊ ME AMA?",
+      "btnYes": "SIM",
+      "btnNo": "NÃO",
+      "rejectMessage": "DORME QUE PASSA"
+    },
+    "presente": {
+      "title": "UMA FLOR PARA OUTRA FLOR, EU TE AMO!"
+    },
+    "errors": {
+      "loadTranslations": "Erro ao carregar o arquivo de traduções"
+    }
+  }
+}
