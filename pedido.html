@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
   <title>Pedido Especial</title>
   <link rel="stylesheet" href="styles.css"> <!-- Reutiliza o seu CSS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -13,7 +14,7 @@
 </head>
 <body>
   <div class="pedido-container">
-    <h1>Quer namorar comigo? 💖</h1>
+    <h1>Quer namorar comigo? </h1>
     <form id="pedidoForm">
       <label>
         <input type="radio" name="resposta" value="Sim"> Sim
@@ -24,9 +25,11 @@
       <button type="submit" disabled>Enviar Resposta</button>
     </form>
 
+    <div class="botoes">
     <form action="dashboard.html" method="get">
-        <button type="submit">⬅ Voltar</button>
-    </form>
+        <button type="submit"><img src="imgs/back.png" alt="voltar" class="emoji"></button>
+      </form>
+    </div>
     <p id="mensagem"></p>
  
         
