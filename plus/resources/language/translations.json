@@ -1,0 +1,16 @@
+{
+  "globals": {
+    "name": "CAMILA M COSTA"
+  },
+  "pt-br": {
+    "index": {
+      "title": "VOCÊ ME AMA?",
+      "btnYes": "SIM",
+      "btnNo": "NÃO",
+      "rejectMessage": "DORME QUE PASSA"
+    },
+    "errors": {
+      "loadTranslations": "Erro ao carregar o arquivo de traduções"
+    }
+  }
+}
