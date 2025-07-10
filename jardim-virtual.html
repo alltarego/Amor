@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Jardim do Amor</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+
+        .garden-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2E8B57;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .garden-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF69B4;
+        }
+
+        .garden-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .plant-spot {
+            background: rgba(139, 69, 19, 0.3);
+            border: 3px dashed #8B4513;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .plant-spot:hover {
+            background: rgba(139, 69, 19, 0.5);
+            transform: scale(1.05);
+        }
+
+        .plant-spot.planted {
+            background: rgba(34, 139, 34, 0.2);
+            border-color: #228B22;
+            border-style: solid;
+        }
+
+        .plant {
+            font-size: 4em;
+            margin-bottom: 10px;
+            animation: grow 2s ease-in-out;
+        }
+
+        @keyframes grow {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .plant-info {
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .plant-name {
+            font-weight: bold;
+            color: #2E8B57;
+            margin-bottom: 5px;
+        }
+
+        .plant-message {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .plant-date {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .add-plant-btn {
+            background: #FF69B4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .add-plant-btn:hover {
+            background: #FF1493;
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .plant-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .plant-option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 2em;
+        }
+
+        .plant-option:hover {
+            border-color: #FF69B4;
+            background: #f8f9fa;
+            transform: scale(1.1);
+        }
+
+        .plant-option.selected {
+            border-color: #FF69B4;
+            background: #FFE4E1;
+        }
+
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2E8B57;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .weather {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .garden-message {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #2E8B57;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather" id="weather">☀️</div>
+    
+    <div class="garden-container">
+        <div class="header">
+            <h1>🌸 Nosso Jardim do Amor 🌸</h1>
+            <p>Cada flor representa um momento especial da nossa história</p>
+            
+            <div class="garden-stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalPlants">0</div>
+                    <div>Plantas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="daysGrowing">0</div>
+                    <div>Dias Crescendo</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="loveLevel">100</div>
+                    <div>% Amor</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="garden-message" id="gardenMessage">
+            🌱 Plante uma flor para cada momento especial nosso! Nosso jardim crescerá junto com nosso amor! 💕
+        </div>
+
+        <button class="add-plant-btn" onclick="openModal()">🌱 Plantar Nova Flor</button>
+
+        <div class="garden-grid" id="gardenGrid">
+            <!-- Spots do jardim serão gerados aqui -->
+        </div>
+    </div>
+
+    <!-- Modal para adicionar planta -->
+    <div id="plantModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>🌸 Plantar Nova Flor 🌸</h2>
+            
+            <div class="form-group">
+                <label>Escolha sua flor:</label>
+                <div class="plant-options" id="plantOptions">
+                    <div class="plant-option" data-plant="🌹" onclick="selectPlant('🌹', this)">🌹</div>
+                    <div class="plant-option" data-plant="🌻" onclick="selectPlant('🌻', this)">🌻</div>
+                    <div class="plant-option" data-plant="🌷" onclick="selectPlant('🌷', this)">🌷</div>
+                    <div class="plant-option" data-plant="🌺" onclick="selectPlant('🌺', this)">🌺</div>
+                    <div class="plant-option" data-plant="🌸" onclick="selectPlant('🌸', this)">🌸</div>
+                    <div class="plant-option" data-plant="💐" onclick="selectPlant('💐', this)">💐</div>
+                    <div class="plant-option" data-plant="🌼" onclick="selectPlant('🌼', this)">🌼</div>
+                    <div class="plant-option" data-plant="🌿" onclick="selectPlant('🌿', this)">🌿</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="plantName">Nome da flor:</label>
+                <input type="text" id="plantName" placeholder="Ex: Rosa do Primeiro Encontro">
+            </div>
+
+            <div class="form-group">
+                <label for="plantMessage">Mensagem especial:</label>
+                <textarea id="plantMessage" placeholder="Conte sobre este momento especial..."></textarea>
+            </div>
+
+            <button class="add-plant-btn" onclick="addPlant()">🌱 Plantar Flor</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedPlantEmoji = '';
+        let plants = JSON.parse(localStorage.getItem('gardenPlants')) || [];
+        let gardenStartDate = localStorage.getItem('gardenStartDate') || new Date().toISOString();
+
+        // Inicializar jardim
+        function initGarden() {
+            createGardenSpots();
+            loadPlants();
+            updateStats();
+            updateWeather();
+            
+            // Salvar data de início se não existir
+            if (!localStorage.getItem('gardenStartDate')) {
+                localStorage.setItem('gardenStartDate', gardenStartDate);
+            }
+        }
+
+        function createGardenSpots() {
+            const grid = document.getElementById('gardenGrid');
+            grid.innerHTML = '';
+            
+            // Criar 12 spots para plantas
+            for (let i = 0; i < 12; i++) {
+                const spot = document.createElement('div');
+                spot.className = 'plant-spot';
+                spot.id = `spot-${i}`;
+                spot.innerHTML = `
+                    <div style="font-size: 2em; color: #8B4513;">🌱</div>
+                    <div style="color: #8B4513; margin-top: 10px;">Spot Vazio</div>
+                    <div style="font-size: 0.8em; color: #999;">Clique para plantar</div>
+                `;
+                spot.onclick = () => openModal(i);
+                grid.appendChild(spot);
+            }
+        }
+
+        function loadPlants() {
+            plants.forEach((plant, index) => {
+                if (plant) {
+                    displayPlant(index, plant);
+                }
+            });
+        }
+
+        function displayPlant(spotIndex, plant) {
+            const spot = document.getElementById(`spot-${spotIndex}`);
+            spot.className = 'plant-spot planted';
+            spot.innerHTML = `
+                <div class="plant">${plant.emoji}</div>
+                <div class="plant-info">
+                    <div class="plant-name">${plant.name}</div>
+                    <div class="plant-message">${plant.message}</div>
+                    <div class="plant-date">Plantada em: ${plant.date}</div>
+                </div>
+            `;
+            spot.onclick = () => showPlantDetails(plant);
+        }
+
+        function openModal(spotIndex = null) {
+            document.getElementById('plantModal').style.display = 'block';
+            document.getElementById('plantModal').dataset.spotIndex = spotIndex;
+        }
+
+        function closeModal() {
+            document.getElementById('plantModal').style.display = 'none';
+            selectedPlantEmoji = '';
+            document.querySelectorAll('.plant-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('plantName').value = '';
+            document.getElementById('plantMessage').value = '';
+        }
+
+        function selectPlant(emoji, element) {
+            document.querySelectorAll('.plant-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedPlantEmoji = emoji;
+        }
+
+        function addPlant() {
+            const name = document.getElementById('plantName').value;
+            const message = document.getElementById('plantMessage').value;
+            const spotIndex = document.getElementById('plantModal').dataset.spotIndex;
+
+            if (!selectedPlantEmoji || !name || !message) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const plant = {
+                emoji: selectedPlantEmoji,
+                name: name,
+                message: message,
+                date: new Date().toLocaleDateString('pt-BR')
+            };
+
+            // Se um spot específico foi selecionado
+            if (spotIndex !== 'null' && spotIndex !== null) {
+                plants[spotIndex] = plant;
+                displayPlant(parseInt(spotIndex), plant);
+            } else {
+                // Encontrar primeiro spot vazio
+                const emptySpot = plants.findIndex(p => !p);
+                if (emptySpot !== -1) {
+                    plants[emptySpot] = plant;
+                    displayPlant(emptySpot, plant);
+                } else {
+                    plants.push(plant);
+                    createGardenSpots();
+                    loadPlants();
+                }
+            }
+
+            // Salvar no localStorage
+            localStorage.setItem('gardenPlants', JSON.stringify(plants));
+            
+            updateStats();
+            closeModal();
+            showCelebration();
+        }
+
+        function showPlantDetails(plant) {
+            alert(`🌸 ${plant.name}\n\n"${plant.message}"\n\nPlantada em: ${plant.date}`);
+        }
+
+        function updateStats() {
+            const totalPlants = plants.filter(p => p).length;
+            const startDate = new Date(gardenStartDate);
+            const today = new Date();
+            const daysGrowing = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('totalPlants').textContent = totalPlants;
+            document.getElementById('daysGrowing').textContent = daysGrowing;
+            
+            // Atualizar mensagem do jardim
+            updateGardenMessage(totalPlants);
+        }
+
+        function updateGardenMessage(totalPlants) {
+            const messages = [
+                "🌱 Plante uma flor para cada momento especial nosso! Nosso jardim crescerá junto com nosso amor! 💕",
+                "🌸 Que lindo! Sua primeira flor está crescendo! Continue plantando nossas memórias! 🥰",
+                "🌺 Nosso jardim está ficando colorido! Cada flor conta nossa história de amor! 💖",
+                "🌻 Uau! Tantas flores lindas! Nosso amor está florescendo como nunca! 🌈",
+                "💐 Nosso jardim está um paraíso! Cada flor é prova do nosso amor infinito! ✨"
+            ];
+            
+            let messageIndex = 0;
+            if (totalPlants >= 8) messageIndex = 4;
+            else if (totalPlants >= 6) messageIndex = 3;
+            else if (totalPlants >= 3) messageIndex = 2;
+            else if (totalPlants >= 1) messageIndex = 1;
+            
+            document.getElementById('gardenMessage').textContent = messages[messageIndex];
+        }
+
+        function updateWeather() {
+            const weathers = ['☀️', '⛅', '🌤️', '🌈'];
+            const randomWeather = weathers[Math.floor(Math.random() * weathers.length)];
+            document.getElementById('weather').textContent = randomWeather;
+            
+            // Mudar clima a cada 10 segundos
+            setTimeout(updateWeather, 10000);
+        }
+
+        function showCelebration() {
+            // Criar efeito de celebração
+            const celebration = document.createElement('div');
+            celebration.innerHTML = '🎉✨🌸✨🎉';
+            celebration.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 3em;
+                z-index: 2000;
+                animation: celebrate 2s ease-in-out;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes celebrate {
+                    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+                    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+                    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                celebration.remove();
+                style.remove();
+            }, 2000);
+        }
+
+        // Inicializar quando a página carregar
+        window.onload = initGarden;
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('plantModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
