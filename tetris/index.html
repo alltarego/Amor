@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../resources/image/coree.png" type="image/x-icon" />
+    <title> Tetris do Amor</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="game-header">
+            <h1 class="game-title">
+                <i class="fas fa-heart"></i>
+                Tetris do Amor
+                <i class="fas fa-heart"></i>
+            </h1>
+            <p class="game-subtitle">Um jogo especial feito com muito carinho 💕</p>
+        </header>
+
+        <!-- Mensagem romântica -->
+        <div id="romantic-message" class="romantic-message hidden">
+            <span id="message-text"></span>
+        </div>
+
+        <div class="game-container">
+            <!-- Tabuleiro principal -->
+            <div class="game-board-container">
+                <canvas id="game-board" width="300" height="600"></canvas>
+                <div class="game-overlay hidden" id="game-over-overlay">
+                    <div class="game-over-content">
+                        <h2><i class="fas fa-heart"></i> Game Over <i class="fas fa-heart"></i></h2>
+                        <div class="final-stats">
+                            <p>Pontuação Final: <span id="final-score">0</span></p>
+                            <p>Linhas Completadas: <span id="final-lines">0</span></p>
+                            <p>Nível Alcançado: <span id="final-level">1</span></p>
+                        </div>
+                        <p class="love-message">"Mesmo quando o jogo acaba, meu amor por você é infinito! 💕"</p>
+                        <button class="btn btn-primary" onclick="startGame()">
+                            <i class="fas fa-play"></i> Jogar Novamente
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painel lateral -->
+            <div class="side-panel">
+                <!-- Próxima peça -->
+                <div class="panel-card">
+                    <h3>Próxima Peça</h3>
+                    <canvas id="next-piece" width="120" height="120"></canvas>
+                </div>
+
+                <!-- Pontuação -->
+                <div class="panel-card">
+                    <h3>Pontuação</h3>
+                    <div class="score-display">
+                        <div class="score-number" id="score">0</div>
+                        <div class="score-details">
+                            <div>Linhas: <span id="lines">0</span></div>
+                            <div>Nível: <span id="level">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controles -->
+                <div class="panel-card">
+                    <h3>Controles</h3>
+                    <div class="controls">
+                        <button class="btn btn-primary btn-full" id="start-pause-btn" onclick="toggleGame()">
+                            <i class="fas fa-play"></i> Começar Jogo
+                        </button>
+                        
+                        <div class="control-grid">
+                            <button class="btn btn-control" onclick="movePiece('left')" id="btn-left">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <button class="btn btn-control" onclick="movePiece('right')" id="btn-right">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="btn btn-control" onclick="rotatePiece()" id="btn-rotate">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button class="btn btn-control" onclick="movePiece('down')" id="btn-down">
+                                <i class="fas fa-arrow-down"></i>
+                            </button>
+                        </div>
+
+                        <div class="control-instructions">
+                            <p>Use as setas do teclado</p>
+                            <p>Espaço ou ↑ para girar</p>
+                            <p>P para pausar</p>
+                            <p class="mobile-hint">📱 Deslize na tela para jogar!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão para voltar ao site -->
+                <div class="panel-card">
+                    <h3>Navegação</h3>
+                    <button class="btn btn-secondary btn-full" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> Voltar ao Site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
