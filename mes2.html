@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Mesversário ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee)
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+
+        .candles-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .candle {
+            position: relative;
+            animation: sway 3s ease-in-out infinite;
+        }
+
+        .candle:nth-child(2) {
+            animation-delay: -1s;
+        }
+
+        .candle:nth-child(3) {
+            animation-delay: -2s;
+        }
+
+        .candle-body {
+            width: 20px;
+            height: 80px;
+            background: linear-gradient(to bottom, #ff6b6b, #ee5a52);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .wick {
+            width: 2px;
+            height: 8px;
+            background: #333;
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .flame {
+            width: 12px;
+            height: 16px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 50%, #f44336 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.5s ease-in-out infinite alternate;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 2s ease-out;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #e91e63;
+            font-weight: 600;
+        }
+
+        .love-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #e91e63;
+            margin: 30px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .counter {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .counter-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .counter-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.7);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) rotate(-2deg) scale(1); }
+            100% { transform: translateX(-50%) rotate(2deg) scale(1.05); }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .message-box {
+                padding: 20px;
+                margin: 20px 10px;
+            }
+            
+            .candles-container {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Nosso Mesversário</h1>
+            <p class="subtitle">Mais um mês de amor e felicidade</p>
+        </div>
+
+        <div class="candles-container">
+            <div class="candle">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+            <div class="candle">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+            <div class="candle">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="counter">
+            <div class="counter-title">Estamos juntos há</div>
+            <div class="counter-value" id="monthsCounter">0 meses</div>
+        </div>
+
+        <div class="message-box">
+            <p class="message">
+                Oi meu amor! 💕<br><br>
+                Mais um mês se passou e meu coração continua <span class="highlight">transbordando de amor</span> por você.
+                Cada dia ao seu lado é uma nova descoberta, um novo motivo para sorrir.
+            </p>
+            
+            <p class="message">
+                Você trouxe <span class="highlight">cores</span> para a minha vida que eu nem sabia que existiam.
+                Seu sorriso é meu lugar favorito no mundo, e seus abraços são meu lar.
+            </p>
+
+            <div class="love-message">
+                Eu te amo mais a cada dia! ❤️
+            </div>
+
+            <p class="message">
+                Obrigado por ser minha <span class="highlight">companheira</span>, minha <span class="highlight">melhor amiga</span> 
+                e o <span class="highlight">amor da minha vida</span>. Que venham muitos e muitos mesversários pela frente!
+            </p>
+
+            <div class="signature">
+                Com todo meu amor,<br>
+                Vitor Altarego 💖
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para calcular meses de relacionamento
+        function calculateMonths() {
+            // Altere esta data para o início do namoro
+            const startDate = new Date('2025-05-23'); // Formato: YYYY-MM-DD
+            const currentDate = new Date();
+            
+            const months = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + 
+                          (currentDate.getMonth() - startDate.getMonth());
+            
+            document.getElementById('monthsCounter').textContent = months + (months === 1 ? ' mês' : ' meses');
+        }
+
+        // Função para criar corações flutuantes
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Função para efeito de digitação
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Inicializar quando a página carregar
+        window.addEventListener('load', function() {
+            calculateMonths();
+            
+            // Criar corações a cada 2 segundos
+            setInterval(createHeart, 2000);
+            
+            // Criar alguns corações iniciais
+            setTimeout(() => createHeart(), 1000);
+            setTimeout(() => createHeart(), 1500);
+            setTimeout(() => createHeart(), 2000);
+        });
+
+        // Atualizar contador a cada minuto
+        setInterval(calculateMonths, 60000);
+    </script>
+</body>
+</html>
