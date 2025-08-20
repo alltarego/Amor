@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
+    <title>Nosso Mesversário </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="pink"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'), auto;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .title:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+
+        .interactive-hint {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+
+        .candles-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .candle {
+            position: relative;
+            animation: sway 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .candle:hover {
+            transform: scale(1.1);
+        }
+
+        .candle:nth-child(2) {
+            animation-delay: -1s;
+        }
+
+        .candle:nth-child(3) {
+            animation-delay: -2s;
+        }
+
+        .candle-body {
+            width: 20px;
+            height: 80px;
+            background: linear-gradient(to bottom, #ff6b6b, #ee5a52);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .wick {
+            width: 2px;
+            height: 8px;
+            background: #333;
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .flame {
+            width: 12px;
+            height: 16px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 50%, #f44336 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.5s ease-in-out infinite alternate;
+            transition: opacity 0.3s ease;
+        }
+
+        .flame.blown-out {
+            opacity: 0;
+        }
+
+        .smoke {
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to top, rgba(128,128,128,0.8), transparent);
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: smoke-rise 2s ease-out;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 2s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,182,193,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .message-box:hover::before {
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #e91e63;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .highlight:hover {
+            color: #ff4081;
+            transform: scale(1.05);
+        }
+
+        .love-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #e91e63;
+            margin: 30px 0;
+            animation: pulse 2s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .love-message:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+        }
+
+        .counter {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .counter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .counter-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .counter-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.7);
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        .interactive-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .surprise-box {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            transform: scale(0);
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .surprise-box.show {
+            transform: scale(1);
+        }
+
+        .floating-emoji {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 1000;
+            animation: float-up 2s ease-out forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) rotate(-2deg) scale(1); }
+            100% { transform: translateX(-50%) rotate(2deg) scale(1.05); }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes smoke-rise {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .message-box {
+                padding: 20px;
+                margin: 20px 10px;
+            }
+            
+            .candles-container {
+                gap: 20px;
+            }
+
+            .interactive-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title" onclick="titleClick()">Nosso Mesversário</h1>
+            <p class="subtitle">Celebrando mais um mês do nosso amor infinito</p>
+            <div class="interactive-hint">
+                ✨ Clique em tudo! Esta página está cheia de surpresas ✨
+            </div>
+        </div>
+
+        <div class="candles-container">
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="candle-body">
+                    <div class="wick"></div>
+                    <div class="flame"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="counter" onclick="counterClick()">
+            <div class="counter-title">Estamos juntos há</div>
+            <div class="counter-value" id="timeCounter">0 dias, 0 horas, 0 minutos e 0 segundos</div>
+        </div>
+
+        <div class="interactive-buttons">
+            <button class="btn" onclick="createConfetti()">🎉 Confetti!</button>
+            <button class="btn" onclick="heartExplosion()">💕 Explosão de Amor</button>
+            <button class="btn" onclick="playMusic()">🎵 Nossa Música</button>
+        </div>
+
+        <div class="message-box">
+            <p class="message">
+                Meu amor, minha vida, minha alma gêmea... 💕<br><br>
+                Hoje celebramos mais um mês juntos, e meu coração está <span class="highlight" onclick="highlightClick(this)">transbordando de gratidão</span> por ter você ao meu lado. 
+                Cada amanhecer contigo é uma nova oportunidade de te amar ainda mais profundamente.
+            </p>
+            
+            <p class="message">
+                Você não é apenas minha namorada, você é minha <span class="highlight" onclick="highlightClick(this)">razão de existir</span>, 
+                minha <span class="highlight" onclick="highlightClick(this)">fonte de força</span> e minha <span class="highlight" onclick="highlightClick(this)">maior felicidade</span>. 
+                Antes de você, eu não sabia que era possível amar tanto assim, que era possível sentir o coração explodir de amor todos os dias.
+            </p>
+
+            <p class="message">
+                Você transformou minha vida de uma forma que nem consigo explicar em palavras. 
+                Trouxe <span class="highlight" onclick="highlightClick(this)">luz</span> onde havia escuridão, 
+                <span class="highlight" onclick="highlightClick(this)">esperança</span> onde havia dúvida, 
+                e <span class="highlight" onclick="highlightClick(this)">amor verdadeiro</span> onde eu nem sabia que precisava.
+            </p>
+
+            <div class="love-message" onclick="loveMessageClick()">
+                Você é tudo para mim! ❤️
+            </div>
+
+            <p class="message">
+                Cada dia ao seu lado é um presente que eu desembrulho com cuidado e carinho. 
+                Seu sorriso ilumina meus dias mais difíceis, sua voz acalma minha alma, 
+                e seu amor me faz sentir como se eu pudesse conquistar o mundo inteiro.
+            </p>
+
+            <p class="message">
+                Eu sou <span class="highlight" onclick="highlightClick(this)">imensamente feliz</span> por estarmos completando mais um mês juntos. 
+                Cada segundo, cada minuto, cada hora ao seu lado vale mais que uma vida inteira sem você. 
+                Você é minha <span class="highlight" onclick="highlightClick(this)">pessoa favorita</span>, meu <span class="highlight" onclick="highlightClick(this)">lugar seguro</span>, 
+                meu <span class="highlight" onclick="highlightClick(this)">lar</span>.
+            </p>
+
+            <p class="message">
+                Obrigado por me amar do jeito que eu sou, por me apoiar em todos os momentos, 
+                por ser minha <span class="highlight" onclick="highlightClick(this)">companheira de vida</span>, 
+                minha <span class="highlight" onclick="highlightClick(this)">melhor amiga</span> e o <span class="highlight" onclick="highlightClick(this)">amor da minha vida</span>. 
+                Que venham muitos e muitos mesversários pela frente, porque eu quero passar o resto da minha vida te amando cada vez mais!
+            </p>
+
+            <div class="signature">
+                Para sempre seu, com todo meu amor,<br>
+                Vitor Altarego 💖
+            </div>
+        </div>
+
+        <div class="surprise-box" id="surpriseBox">
+            <h3>🎁 Mensagem Especial do Coração!</h3>
+            <p>Você é a melodia mais bonita da minha vida, a estrela mais brilhante do meu céu, e a razão pela qual eu acordo todos os dias com um sorriso no rosto. Te amo mais que todas as palavras do mundo conseguem expressar! 💖✨🌟</p>
+        </div>
+    </div>
+
+    <script>
+        let musicPlaying = false;
+        let candlesBlown = 0;
+
+        
+        function calculateTime() {
+            const startDate = new Date('2025-05-23T22:36:00'); 
+            const currentDate = new Date();
+
+            const diff = currentDate - startDate; 
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timeCounter').textContent =  `${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos`;
+
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            
+            document.getElementById('hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        function blowCandle(candle) {
+            const flame = candle.querySelector('.flame');
+            if (!flame.classList.contains('blown-out')) {
+                flame.classList.add('blown-out');
+                
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke';
+                candle.querySelector('.candle-body').appendChild(smoke);
+                
+                setTimeout(() => {
+                    smoke.remove();
+                }, 2000);
+
+                candlesBlown++;
+                
+                if (candlesBlown === 3) {
+                    setTimeout(() => {
+                        createConfetti();
+                        showFloatingEmoji('🎉', 5);
+                        alert('Parabéns! Você soprou todas as velas! Que todos os nossos sonhos se realizem juntos! 🎂✨💕');
+                    }, 500);
+                }
+            } else {
+                flame.classList.remove('blown-out');
+                candlesBlown--;
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+
+        function heartExplosion() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+            showFloatingEmoji('💕', 8);
+        }
+
+        function playMusic() {
+            window.open('https://open.spotify.com/intl-pt/track/2jGD5AlhBi8V8YZMnwXHkX?si=40586ca4342e4417', '_blank');
+            showFloatingEmoji('🎵', 4);
+        }
+
+
+        function titleClick() {
+            document.querySelector('.title').style.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            showFloatingEmoji('✨', 3);
+        }
+
+        function counterClick() {
+            const counter = document.querySelector('.counter');
+            counter.style.background = `linear-gradient(45deg, hsl(${Math.random() * 360}, 70%, 60%), hsl(${Math.random() * 360}, 70%, 60%))`;
+            showFloatingEmoji('⏰', 2);
+        }
+
+        function highlightClick(element) {
+            element.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
+            element.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 300);
+            showFloatingEmoji('💖', 1);
+        }
+
+        function loveMessageClick() {
+            const loveMessage = document.querySelector('.love-message');
+            loveMessage.style.fontSize = '2.5rem';
+            loveMessage.innerHTML = 'EU TE AMO MAIS QUE TUDO NESSA VIDA! 💕✨🌟💖';
+            setTimeout(() => {
+                loveMessage.style.fontSize = '2rem';
+                loveMessage.innerHTML = 'Você é tudo para mim! ❤️';
+            }, 3000);
+            heartExplosion();
+        }
+
+        function showFloatingEmoji(emoji, count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const floatingEmoji = document.createElement('div');
+                    floatingEmoji.className = 'floating-emoji';
+                    floatingEmoji.innerHTML = emoji;
+                    floatingEmoji.style.left = Math.random() * 100 + '%';
+                    floatingEmoji.style.top = Math.random() * 100 + '%';
+                    document.body.appendChild(floatingEmoji);
+                    
+                    setTimeout(() => {
+                        floatingEmoji.remove();
+                    }, 2000);
+                }, i * 200);
+            }
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.02) {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = '✨';
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.fontSize = '12px';
+                sparkle.style.zIndex = '1000';
+                sparkle.style.animation = 'float-up 1s ease-out forwards';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
+
+        window.addEventListener('load', function() {
+            calculateTime();           // Atualiza ao carregar
+            setInterval(calculateTime, 1000); // Atualiza a cada segundo
+        });
+
+        document.addEventListener('dblclick', function(e) {
+            createConfetti();
+            showFloatingEmoji('🎉', 3);
+        });
+    </script>
+</body>
+</html>
