@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
+    <title>Nossos Corações se Unindo ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+            transition: all 0.8s ease;
+        }
+
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .heart-outline {
+            fill: none;
+            stroke: #ff69b4;
+            stroke-width: 2;
+            stroke-dasharray: 3, 2;
+            opacity: 0.5;
+            animation: dashMove 3s linear infinite;
+        }
+
+        .heart-left, .heart-right {
+            fill: url(#heartGradient);
+            transition: all 0.2s ease-out;
+            filter: drop-shadow(0 5px 15px rgba(255, 105, 180, 0.4));
+        }
+
+        .heart-left {
+            transform-origin: center center;
+            transform: translateX(-120px) translateY(0px);
+        }
+
+        .heart-right {
+            transform-origin: center center;
+            transform: translateX(120px) translateY(0px);
+        }
+
+        .fill-button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            animation: pulse 2s infinite;
+            user-select: none;
+        }
+
+        .fill-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 105, 180, 0.5);
+        }
+
+        .fill-button:active {
+            transform: translateY(0);
+        }
+
+        .progress-text {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .love-message {
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.8s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .love-message.show {
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+        }
+
+        .love-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff1493;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .love-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .reveal-button {
+            background: linear-gradient(45deg, #ff1493, #9c27b0);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .reveal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.4);
+        }
+
+        .message-container {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-height: 70vh;
+            overflow-y: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .message-container.show {
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #ff1493;
+            font-weight: 600;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.6);
+            font-size: 20px;
+            animation: floatUp 4s ease-in-out infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: #ffd700;
+            font-size: 16px;
+            animation: sparkleAnim 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes dashMove {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 10; }
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg);
+            }
+        }
+
+        @keyframes unionGlow {
+            0%, 100% {
+                filter: drop-shadow(0 5px 15px rgba(255, 105, 180, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 5px 25px rgba(255, 105, 180, 0.8));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .heart-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .love-text {
+                font-size: 3rem;
+            }
+            
+            .love-image {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .message-container {
+                padding: 20px;
+            }
+
+            .heart-left {
+                transform: translateX(-100px) translateY(0px);
+            }
+
+            .heart-right {
+                transform: translateX(100px) translateY(0px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <h1 class="title">Nossos Corações se Unindo</h1>
+        
+        <!-- Fase 1: Corações se aproximando -->
+        <div id="heartPhase" class="heart-container">
+            <svg class="heart-svg" viewBox="0 0 100 100">
+                <defs>
+                    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff69b4;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#ff1493;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#dc143c;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- Contorno do coração completo (guia) -->
+                <path class="heart-outline" d="M50,85 C20,60 5,35 15,15 C25,-5 45,5 50,25 C55,5 75,-5 85,15 C95,35 80,60 50,85 Z"/>
+                
+                <!-- Metade esquerda (EU) -->
+                <path id="heartLeft" class="heart-left" d="M50,85 C20,60 5,35 15,15 C25,-5 45,5 50,25 L50,85 Z"/>
+                
+                <!-- Metade direita (VOCÊ) -->
+                <path id="heartRight" class="heart-right" d="M50,25 C55,5 75,-5 85,15 C95,35 80,60 50,85 L50,25 Z"/>
+            </svg>
+            
+            <button class="fill-button" id="fillButton" 
+                    onmousedown="startUnion()" 
+                    onmouseup="stopUnion()" 
+                    onmouseleave="stopUnion()" 
+                    ontouchstart="startUnion()" 
+                    ontouchend="stopUnion()">
+                Clique para nos unir!
+            </button>
+            
+            <div class="progress-text" id="progressText">Eu ❤️ Você - 0% unidos</div>
+        </div>
+
+        <!-- Fase 2: Mensagem de amor -->
+        <div id="lovePhase" class="love-message">
+            <div class="love-text">EU TE AMO!</div>
+            <img src="/imgs/cat-heart.png" alt="Nosso Amor" class="love-image">
+            <button class="reveal-button" onclick="showMessage()"> Clique para ver minha mensagem</button>
+        </div>
+
+        <!-- Fase 3: Mensagem do mesversário -->
+        <div id="messagePhase" class="message-container">
+            <p class="message-text">
+                Amor, hoje completamos 4 meses juntos.... <br><br>
+                Quero te agradecer por cada momento que já vivemos nesse tempo. 
+                Não foram apenas dias passando, mas sim lembranças que guardo com carinho e que me fazem sorrir só de pensar.
+                Estar com você me trouxe novas conquistas, aprendizados e, principalmente, a certeza de que ter você ao meu lado faz tudo valer a pena.
+                Obrigado por ser tão especial, por me apoiar e por transformar até os dias mais simples em algo único.
+                Que esses 4 meses sejam só o começo de uma história ainda maior que vamos escrever juntos.
+            </p>
+            
+
+            <div class="signature">
+                Vitor Altarego, <br>
+                Seu futuro esposo
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let unionLevel = 0;
+        let uniting = false;
+        let separateInterval;
+        let unionInterval;
+
+        function startUnion() {
+            uniting = true;
+            clearInterval(separateInterval);
+            
+            unionInterval = setInterval(() => {
+                if (unionLevel < 100) {
+                    unionLevel += 4; // Muito mais rápido!
+                    updateHearts();
+                    createSparkles();
+                    
+                    if (unionLevel >= 100) {
+                        completeUnion();
+                    }
+                }
+            }, 30); // Mais frequente
+        }
+
+        function stopUnion() {
+            uniting = false;
+            clearInterval(unionInterval);
+            
+            // Separar muito devagar e só depois de um tempo
+            setTimeout(() => {
+                if (!uniting && unionLevel > 0) {
+                    separateInterval = setInterval(() => {
+                        if (unionLevel > 0) {
+                            unionLevel -= 0.5; // Muito mais devagar
+                            updateHearts();
+                        } else {
+                            clearInterval(separateInterval);
+                        }
+                    }, 100);
+                }
+            }, 800); // Espera mais tempo
+        }
+
+        function updateHearts() {
+            const heartLeft = document.getElementById('heartLeft');
+            const heartRight = document.getElementById('heartRight');
+            const progressText = document.getElementById('progressText');
+            
+            // Calcular posições baseado no progresso (mais suave)
+            const progress = unionLevel / 100;
+            
+            // Movimento mais suave e natural
+            const leftX = -120 + (120 * progress);
+            const rightX = 120 - (120 * progress);
+            
+            heartLeft.style.transform = `translateX(${leftX}px) translateY(0px)`;
+            heartRight.style.transform = `translateX(${rightX}px) translateY(0px)`;
+            
+            // Atualizar texto do progresso
+            if (unionLevel === 0) {
+                progressText.textContent = "Eu ❤️ Você - 0% unidos";
+            } else if (unionLevel < 100) {
+                progressText.textContent = `Nos unindo... ${Math.round(unionLevel)}% ❤️`;
+            } else {
+                progressText.textContent = "Corações unidos para sempre! 💖";
+            }
+            
+            // Adicionar efeito de brilho quando está se unindo
+            if (uniting && unionLevel > 0) {
+                heartLeft.style.animation = 'unionGlow 0.8s ease-in-out infinite';
+                heartRight.style.animation = 'unionGlow 0.8s ease-in-out infinite';
+            } else {
+                heartLeft.style.animation = 'none';
+                heartRight.style.animation = 'none';
+            }
+        }
+
+        function createSparkles() {
+            if (Math.random() < 0.8) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = ['✨', '💫', '⭐', '🌟'][Math.floor(Math.random() * 4)];
+                sparkle.style.left = (40 + Math.random() * 20) + '%';
+                sparkle.style.top = (35 + Math.random() * 30) + '%';
+                
+                document.querySelector('.heart-container').appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        }
+
+        function completeUnion() {
+            clearInterval(unionInterval);
+            clearInterval(separateInterval);
+            
+            // Criar explosão de corações
+            createHeartExplosion();
+            
+            // Efeito final de união
+            const heartLeft = document.getElementById('heartLeft');
+            const heartRight = document.getElementById('heartRight');
+            heartLeft.style.filter = 'drop-shadow(0 0 25px rgba(255, 105, 180, 1))';
+            heartRight.style.filter = 'drop-shadow(0 0 25px rgba(255, 105, 180, 1))';
+            
+            // Transição para a fase do amor
+            setTimeout(() => {
+                document.getElementById('heartPhase').style.opacity = '0';
+                document.getElementById('heartPhase').style.transform = 'scale(0)';
+                
+                setTimeout(() => {
+                    document.getElementById('heartPhase').style.display = 'none';
+                    document.getElementById('lovePhase').classList.add('show');
+                }, 800);
+            }, 1500);
+        }
+
+        function showMessage() {
+            document.getElementById('lovePhase').style.opacity = '0';
+            document.getElementById('lovePhase').style.transform = 'scale(0)';
+            
+            setTimeout(() => {
+                document.getElementById('lovePhase').style.display = 'none';
+                document.getElementById('messagePhase').classList.add('show');
+            }, 800);
+        }
+
+        function createHeartExplosion() {
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    createFloatingHeart();
+                    if (i < 15) createSparkles();
+                }, i * 80);
+            }
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['❤️', '💕', '💖', '💗'][Math.floor(Math.random() * 4)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Criar corações flutuantes de fundo
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                createFloatingHeart();
+            }
+        }, 2500);
+
+        // Prevenir seleção de texto
+        document.addEventListener('selectstart', function(e) {
+            if (uniting) {
+                e.preventDefault();
+            }
+        });
+
+        // Prevenir scroll em dispositivos móveis
+        document.addEventListener('touchmove', function(e) {
+            if (uniting) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
