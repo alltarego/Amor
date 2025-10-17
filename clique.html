@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardim do Amor 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e3f2fd 100%);
+            cursor: pointer;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .ui-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .stats-panel {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .hearts-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .achievement-popup {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 20px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid #fcd34d;
+            animation: slideDown 0.5s ease-out;
+            pointer-events: none;
+        }
+
+        .achievement-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .achievement-icon {
+            font-size: 32px;
+        }
+
+        .achievement-text h3 {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .achievement-text p {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .messages-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .messages-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .messages-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .messages-header h3 {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .message-list {
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .welcome-screen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .welcome-title {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .welcome-subtitle {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .welcome-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 20px;
+            color: #999;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 32px;
+            opacity: 0.2;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 48px;
+            }
+            .welcome-subtitle {
+                font-size: 18px;
+            }
+            .stat-value {
+                font-size: 24px;
+            }
+            .stat-label {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="ui-container">
+        <div class="stats-panel">
+            <div class="stat-box">
+                <span class="stat-icon">⭐</span>
+                <span class="stat-value" id="scoreValue">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-icon">🏆</span>
+                <span class="stat-label">Nível <span id="levelValue">1</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hearts-counter">
+        <div class="stat-box">
+            <span class="stat-icon">💖</span>
+            <span class="stat-label"><span id="heartsValue">0</span> corações</span>
+        </div>
+    </div>
+
+    <div id="achievementPopup" style="display: none;"></div>
+
+    <div class="messages-panel" id="messagesPanel" style="display: none;">
+        <div class="messages-box">
+            <div class="messages-header">
+                <span style="font-size: 20px;">✨</span>
+                <h3>Mensagens Desbloqueadas</h3>
+            </div>
+            <div class="message-list" id="messageList"></div>
+        </div>
+    </div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+        <h1 class="welcome-title">Jardim do Amor</h1>
+        <p class="welcome-subtitle">Clique para plantar corações e desbloquear mensagens especiais</p>
+        <div class="welcome-hint">
+            <span>💖</span>
+            <span>Clique em qualquer lugar para começar</span>
+        </div>
+    </div>
+
+    <div class="floating-heart" style="top: 80px; left: 40px; animation-delay: 0s;">💖</div>
+    <div class="floating-heart" style="top: 160px; right: 80px; animation-delay: 1s;">💜</div>
+    <div class="floating-heart" style="bottom: 130px; left: 25%; animation-delay: 2s;">💙</div>
+    <div class="floating-heart" style="bottom: 80px; right: 33%; animation-delay: 1.5s;">💗</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Configuração do canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Estado do jogo
+        let score = 0;
+        let level = 1;
+        let heartsPlanted = 0;
+        let particles = [];
+        let sparkles = [];
+        let unlockedMessages = [];
+
+        // Mensagens românticas
+        const messages = [
+            { text: "Você é incrível!", threshold: 0 },
+            { text: "Cada momento contigo é mágico", threshold: 10 },
+            { text: "Meu coração bate mais forte por você", threshold: 25 },
+            { text: "Você é a razão do meu sorriso", threshold: 50 },
+            { text: "Juntos somos imbatíveis", threshold: 75 },
+            { text: "Te amo infinitamente", threshold: 100 },
+            { text: "Você é meu sonho realizado", threshold: 150 },
+            { text: "Para sempre ao seu lado", threshold: 200 }
+        ];
+
+        // Conquistas
+        const achievements = [
+            { id: "first", title: "Primeiro Coração", description: "Plantou seu primeiro coração", threshold: 1, unlocked: false },
+            { id: "gardener", title: "Jardineiro do Amor", description: "Plantou 25 corações", threshold: 25, unlocked: false },
+            { id: "master", title: "Mestre dos Corações", description: "Plantou 50 corações", threshold: 50, unlocked: false },
+            { id: "legend", title: "Lenda do Amor", description: "Plantou 100 corações", threshold: 100, unlocked: false }
+        ];
+
+        // Cores dos corações
+        const colors = [
+            'rgba(255, 182, 193, 0.9)',
+            'rgba(221, 160, 221, 0.9)',
+            'rgba(255, 218, 185, 0.9)',
+            'rgba(176, 224, 230, 0.9)'
+        ];
+
+        // Desenhar coração
+        function drawHeart(x, y, size, color, opacity) {
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+
+            const topCurveHeight = size * 0.3;
+            ctx.moveTo(x, y + topCurveHeight);
+
+            ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+            ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + (size + topCurveHeight) / 2, x, y + size);
+            ctx.bezierCurveTo(x, y + (size + topCurveHeight) / 2, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+            ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Desenhar estrela
+        function drawStar(x, y, size, opacity) {
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = '#FFD700';
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 5;
+
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (Math.PI * 2 * i) / 5 - Math.PI / 2;
+                const x1 = x + Math.cos(angle) * size;
+                const y1 = y + Math.sin(angle) * size;
+                if (i === 0) ctx.moveTo(x1, y1);
+                else ctx.lineTo(x1, y1);
+
+                const angle2 = angle + Math.PI / 5;
+                const x2 = x + Math.cos(angle2) * (size / 2);
+                const y2 = y + Math.sin(angle2) * (size / 2);
+                ctx.lineTo(x2, y2);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Verificar colisão
+        function checkCollision(p1, p2) {
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const minDistance = (p1.size + p2.size) / 2;
+            return distance < minDistance;
+        }
+
+        // Resolver colisão
+        function resolveCollision(p1, p2) {
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance === 0) return;
+
+            const nx = dx / distance;
+            const ny = dy / distance;
+
+            const relativeVelocityX = p2.vx - p1.vx;
+            const relativeVelocityY = p2.vy - p1.vy;
+            const speed = relativeVelocityX * nx + relativeVelocityY * ny;
+
+            if (speed < 0) return;
+
+            const impulse = (2 * speed) / 2;
+            p1.vx += impulse * nx;
+            p1.vy += impulse * ny;
+            p2.vx -= impulse * nx;
+            p2.vy -= impulse * ny;
+        }
+
+        // Criar partículas de brilho
+        function createSparkles(x, y) {
+            for (let i = 0; i < 15; i++) {
+                const angle = (Math.PI * 2 * i) / 15;
+                const speed = Math.random() * 3 + 2;
+                sparkles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1,
+                    maxLife: 1,
+                    size: Math.random() * 4 + 2
+                });
+            }
+        }
+
+        // Mostrar conquista
+        function showAchievement(achievement) {
+            const popup = document.getElementById('achievementPopup');
+            popup.innerHTML = `
+                <div class="achievement-popup">
+                    <div class="achievement-content">
+                        <span class="achievement-icon">🏆</span>
+                        <div class="achievement-text">
+                            <h3>Conquista Desbloqueada!</h3>
+                            <p>${achievement.title}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        // Atualizar mensagens
+        function updateMessages() {
+            const messageList = document.getElementById('messageList');
+            const messagesPanel = document.getElementById('messagesPanel');
+            
+            if (unlockedMessages.length > 0) {
+                messagesPanel.style.display = 'block';
+                messageList.innerHTML = unlockedMessages.slice(-3).reverse().map(msg => 
+                    `<div class="message-item">${msg}</div>`
+                ).join('');
+            }
+        }
+
+        // Atualizar UI
+        function updateUI() {
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('levelValue').textContent = level;
+            document.getElementById('heartsValue').textContent = heartsPlanted;
+        }
+
+        // Clique no canvas
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Esconder tela de boas-vindas
+            if (heartsPlanted === 0) {
+                document.getElementById('welcomeScreen').style.display = 'none';
+            }
+
+            // Criar novo coração
+            const newHeart = {
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 2,
+                vy: -Math.random() * 3 - 2,
+                size: 5,
+                targetSize: Math.random() * 25 + 20,
+                opacity: 1,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                life: 1,
+                growing: true
+            };
+
+            particles.push(newHeart);
+            createSparkles(x, y);
+
+            heartsPlanted++;
+            score += 10;
+
+            // Verificar conquistas
+            achievements.forEach(achievement => {
+                if (!achievement.unlocked && heartsPlanted >= achievement.threshold) {
+                    achievement.unlocked = true;
+                    showAchievement(achievement);
+                }
+            });
+
+            // Verificar mensagens
+            messages.forEach(message => {
+                if (heartsPlanted >= message.threshold && !unlockedMessages.includes(message.text)) {
+                    unlockedMessages.push(message.text);
+                    updateMessages();
+                }
+            });
+
+            // Aumentar nível
+            if (heartsPlanted % 20 === 0) {
+                level++;
+            }
+
+            updateUI();
+        });
+
+        // Loop de animação
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Atualizar e desenhar corações
+            particles = particles.filter(particle => {
+                // Crescimento
+                if (particle.growing && particle.size < particle.targetSize) {
+                    particle.size += 0.5;
+                } else {
+                    particle.growing = false;
+                }
+
+                // Física
+                particle.vy += 0.15; // Gravidade
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+                // Resistência do ar
+                particle.vx *= 0.99;
+                particle.vy *= 0.99;
+
+                // Colisão com bordas
+                if (particle.x - particle.size / 2 < 0 || particle.x + particle.size / 2 > canvas.width) {
+                    particle.vx *= -0.8;
+                    particle.x = Math.max(particle.size / 2, Math.min(canvas.width - particle.size / 2, particle.x));
+                }
+
+                if (particle.y + particle.size / 2 > canvas.height) {
+                    particle.vy *= -0.7;
+                    particle.y = canvas.height - particle.size / 2;
+                    particle.vx *= 0.95;
+                }
+
+                if (particle.y - particle.size / 2 < 0) {
+                    particle.vy *= -0.8;
+                    particle.y = particle.size / 2;
+                }
+
+                // Verificar colisões entre partículas
+                particles.forEach(other => {
+                    if (particle !== other && checkCollision(particle, other)) {
+                        resolveCollision(particle, other);
+                    }
+                });
+
+                drawHeart(particle.x, particle.y, particle.size, particle.color, particle.opacity);
+
+                return particle.y < canvas.height + 100;
+            });
+
+            // Atualizar e desenhar estrelas
+            sparkles = sparkles.filter(sparkle => {
+                sparkle.x += sparkle.vx;
+                sparkle.y += sparkle.vy;
+                sparkle.vy += 0.1;
+                sparkle.life -= 0.02;
+
+                const opacity = sparkle.life / sparkle.maxLife;
+                drawStar(sparkle.x, sparkle.y, sparkle.size, opacity);
+
+                return sparkle.life > 0;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Iniciar animação
+        animate();
+    </script>
+</body>
+</html>
