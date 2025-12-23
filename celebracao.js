@@ -1,7 +1,7 @@
 // Configuração - PERSONALIZE AQUI
 const config = {
   // Data de início do relacionamento
-  startDate: new Date("2024-05-23T22:36:00"),
+  startDate: new Date("2025-05-23T22:36:00"),
 
   // Nomes do casal (opcional)
   names: ["Vitor", "Camila"],
@@ -49,33 +49,9 @@ function updateTimeCounter() {
     `
 }
 
-// Navegação entre seções
-function setupNavigation() {
-  const navButtons = document.querySelectorAll(".nav-btn")
-  const sections = document.querySelectorAll(".section")
-
-  navButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetSection = btn.getAttribute("data-section")
-
-      // Remover active de todos
-      navButtons.forEach((b) => b.classList.remove("active"))
-      sections.forEach((s) => s.classList.remove("active"))
-
-      // Adicionar active ao clicado
-      btn.classList.add("active")
-      document.getElementById(targetSection).classList.add("active")
-
-      // Se for a seção de ano novo, iniciar fogos
-      if (targetSection === "newyear") {
-        startFireworks()
-      }
-    })
-  })
-}
-
 // Sistema de fogos de artifício
 let fireworksInterval
+let fireworksAnimationId
 
 function startFireworks() {
   const canvas = document.getElementById("fireworks")
@@ -141,16 +117,16 @@ function startFireworks() {
   }
 
   function createParticles(x, y, color) {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
       particles.push(new Particle(x, y, color))
     }
   }
 
   function animate() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"
+    ctx.fillStyle = "rgba(0, 0, 0, 0.2)"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    if (Math.random() < 0.05) {
+    if (Math.random() < 0.03) {
       fireworks.push(new Firework())
     }
 
@@ -170,7 +146,13 @@ function startFireworks() {
       }
     }
 
-    requestAnimationFrame(animate)
+    fireworksAnimationId = requestAnimationFrame(animate)
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  if (fireworksAnimationId) {
+    cancelAnimationFrame(fireworksAnimationId)
   }
 
   animate()
@@ -185,6 +167,39 @@ window.addEventListener("resize", () => {
   }
 })
 
+// Navegação entre seções
+function setupNavigation() {
+  const navButtons = document.querySelectorAll(".nav-btn")
+  const sections = document.querySelectorAll(".section")
+
+  navButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetSection = btn.getAttribute("data-section")
+
+      // Remover active de todos
+      navButtons.forEach((b) => b.classList.remove("active"))
+      sections.forEach((s) => s.classList.remove("active"))
+
+      // Adicionar active ao clicado
+      btn.classList.add("active")
+      document.getElementById(targetSection).classList.add("active")
+
+      const canvas = document.getElementById("fireworks")
+      const ctx = canvas.getContext("2d")
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      if (fireworksAnimationId) {
+        cancelAnimationFrame(fireworksAnimationId)
+      }
+
+      // Se for a seção de ano novo, iniciar fogos
+      if (targetSection === "newyear") {
+        startFireworks()
+      }
+    })
+  })
+}
+
 // Inicialização
 document.addEventListener("DOMContentLoaded", () => {
   createParticles()
@@ -192,3 +207,4 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(updateTimeCounter, 1000)
   setupNavigation()
 })
+
