@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa História de Amor </title>
+    <link rel="stylesheet" href="celebracao.css">
+</head>
+<body>
+    <!-- Partículas de fundo -->
+    <div id="particles"></div>
+    
+    <!-- Seção Principal -->
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Nossa História de Amor</h1>
+            <div id="timeCounter" class="time-counter"></div>
+        </header>
+
+        <!-- Navegação -->
+        <nav class="nav">
+            <button class="nav-btn active" data-section="months">7 Meses</button>
+            <button class="nav-btn" data-section="christmas">Primeiro Natal</button>
+            <button class="nav-btn" data-section="newyear">Primeiro Ano Novo</button>
+        </nav>
+
+        <!-- Seções de Conteúdo -->
+        <main class="content">
+            <!-- Seção 7 Meses -->
+            <section id="months" class="section active">
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2 class="card-title">7 Meses Juntos</h2>
+                    <p class="card-text">
+                        Sete meses podem parecer pouco, mas cada momento ao seu lado 
+                        parece uma eternidade de felicidade. Cada sorriso, cada abraço, 
+                        cada conversa fortalece ainda mais o nosso amor.
+                    </p>
+                    <div class="memories">
+                        <div class="memory-item">
+                            <span class="memory-emoji"></span>
+                            <p>Nosso primeiro beijo</p>
+                        </div>
+                        <div class="memory-item">
+                            <span class="memory-emoji"></span>
+                            <p>Nossa primeira viagem</p>
+                        </div>
+                        <div class="memory-item">
+                            <span class="memory-emoji"></span>
+                            <p>Declarações de amor</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Primeiro Natal -->
+            <section id="christmas" class="section">
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2 class="card-title">Nosso Primeiro Natal</h2>
+                    <p class="card-text">
+                        O Natal ganhou um novo significado ao seu lado. A magia desta 
+                        data especial se multiplicou porque agora tenho você para 
+                        compartilhar cada momento mágico desta época do ano.
+                    </p>
+                    <div class="christmas-tree">
+                        <div class="tree-star"></div>
+                        <div class="tree-lights">
+                            <span class="light"></span>
+                            <span class="light"></span>
+                            <span class="light"></span>
+                            <span class="light"></span>
+                            <span class="light"></span>
+                        </div>
+                    </div>
+                    <p class="card-quote">
+                        "Você é o melhor presente que eu poderia receber" 
+                    </p>
+                </div>
+            </section>
+
+            <!-- Seção Primeiro Ano Novo -->
+            <section id="newyear" class="section">
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2 class="card-title">Nosso Primeiro Ano Novo</h2>
+                    <p class="card-text">
+                        Começar um novo ano ao seu lado é a promessa de 365 novos dias 
+                        repletos de amor, cumplicidade e momentos inesquecíveis. Que 
+                        venham muitos anos novos juntos!
+                    </p>
+                    <div class="countdown-display">
+                        <div class="countdown-number">2025</div>
+                        <p class="countdown-text">Nosso ano especial</p>
+                    </div>
+                    <div class="wishes">
+                        <p class="wish"> Mais viagens juntos</p>
+                        <p class="wish"> Mais momentos especiais</p>
+                        <p class="wish"> Amor crescente a cada dia</p>
+                    </div>
+                </div>
+                <canvas id="fireworks"></canvas>
+            </section>
+        </main>
+
+        <!-- Mensagem Final -->
+        <footer class="footer">
+            <p class="love-message">
+                Te amo mais a cada dia que passa 
+            </p>
+        </footer>
+    </div>
+
+    <script src="celebracao.js"></script>
+</body>
+</html>
