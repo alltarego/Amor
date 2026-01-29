@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
+    <title>8 Meses - Quebra-Cabeca do Amor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .voltar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #ff6b9d;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid #ff6b9d;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .voltar:hover {
+            background: #ff6b9d;
+            color: #1a1a2e;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .movimentos {
+            font-size: 1.2rem;
+            color: #e0e0e0;
+        }
+
+        .movimentos strong {
+            color: #ff6b9d;
+            font-size: 1.4rem;
+        }
+
+        .btn-shuffle {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-shuffle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+        }
+
+        .puzzle-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .puzzle-container {
+            width: 324px;
+            height: 324px;
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .puzzle-piece {
+            width: 100px;
+            height: 100px;
+            background-size: 300px 300px;
+            background-repeat: no-repeat;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .puzzle-piece:hover:not(.empty) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .puzzle-piece.empty {
+            background: transparent !important;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .puzzle-piece.movable {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(255, 107, 157, 0); }
+        }
+
+        .imagem-referencia {
+            text-align: center;
+        }
+
+        .imagem-referencia p {
+            color: #a0a0a0;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .imagem-referencia img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .imagem-referencia img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* Tela de vitoria */
+        .victory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+        }
+
+        .victory-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .victory-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hearts-animation {
+            margin-bottom: 20px;
+        }
+
+        .heart {
+            display: inline-block;
+            color: #ff6b9d;
+            font-size: 2rem;
+            margin: 0 5px;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        .heart:nth-child(1) { animation-delay: 0s; }
+        .heart:nth-child(2) { animation-delay: 0.2s; }
+        .heart:nth-child(3) { animation-delay: 0.4s; }
+        .heart:nth-child(4) { animation-delay: 0.6s; }
+        .heart:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .victory-content h2 {
+            font-size: 2.2rem;
+            color: #ff6b9d;
+            margin-bottom: 25px;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .foto-completa {
+            margin-bottom: 25px;
+        }
+
+        .foto-completa img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.3);
+            border: 3px solid #ff6b9d;
+        }
+
+        .mensagem-amor {
+            background: rgba(255, 107, 157, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .mensagem-amor p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+        }
+
+        .mensagem-amor .assinatura {
+            font-size: 1.3rem;
+            color: #ff6b9d;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .moves-final {
+            color: #a0a0a0;
+            margin-bottom: 25px;
+        }
+
+        .moves-final strong {
+            color: #ff6b9d;
+        }
+
+        .btn-fechar, .btn-voltar {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-fechar:hover, .btn-voltar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+        }
+
+        .btn-voltar {
+            background: transparent;
+            border: 2px solid #ff6b9d;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .puzzle-container {
+                width: 264px;
+                height: 264px;
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(3, 80px);
+            }
+            
+            .puzzle-piece {
+                width: 80px;
+                height: 80px;
+                background-size: 240px 240px !important;
+            }
+            
+            .voltar {
+                position: relative;
+                display: inline-block;
+                margin-bottom: 15px;
+            }
+            
+            .imagem-referencia {
+                margin-top: 20px;
+            }
+            
+            .foto-completa img {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .victory-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="voltar">Voltar</a>
+            <h1>8 Meses Juntos</h1>
+            <p class="subtitulo">Monte o quebra-cabeca e descubra uma surpresa</p>
+        </header>
+
+        <div class="game-info">
+            <span class="movimentos">Movimentos: <strong id="moves">0</strong></span>
+            <button id="btn-embaralhar" class="btn-shuffle">Embaralhar</button>
+        </div>
+
+        <div class="puzzle-wrapper">
+            <div class="puzzle-container" id="puzzle">
+                <!-- Pecas serao geradas via JavaScript -->
+            </div>
+            <div class="imagem-referencia">
+                <p>Imagem completa:</p>
+                <img src="imgs/foto.png" alt="Nossa foto" id="img-referencia">
+            </div>
+        </div>
+
+        <!-- Mensagem de vitoria -->
+        <div class="victory-overlay" id="victory">
+            <div class="victory-content">
+                <div class="hearts-animation">
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                    <span class="heart">&#10084;</span>
+                </div>
+                <h2>Parabens, meu amor!</h2>
+                <div class="foto-completa">
+                    <img src="imgs/foto.png" alt="Nossa foto">
+                </div>
+                <div class="mensagem-amor">
+                    <p>8 meses ao seu lado...</p>
+                    <p>8 meses de sorrisos, abracos e beijos.</p>
+                    <p>8 meses construindo memorias que vou guardar para sempre.</p>
+                    <p>Você e a peça que faltava na minha vida,</p>
+                    <p>e agora que te encontrei, tudo faz sentido.</p>
+                    <p class="assinatura">Te amo infinitamente! &#10084;</p>
+                </div>
+                <p class="moves-final">Voce completou em <strong id="final-moves">0</strong> movimentos!</p>
+                <button id="btn-fechar" class="btn-fechar">Jogar Novamente</button>
+                <a href="dashboard.html" class="btn-voltar">Voltar ao Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURACAO ==========
+        // Coloque sua foto na pasta "imgs" com o nome "foto-mes8.jpg"
+        // Ou altere o caminho abaixo:
+        const FOTO_URL = "imgs/foto.png";
+        
+        // ========== CODIGO DO JOGO ==========
+        const GRID_SIZE = 3;  // 3x3 = 8 pecas (mais facil!)
+        const TOTAL_PIECES = GRID_SIZE * GRID_SIZE;
+
+        let pieces = [];
+        let emptyIndex = TOTAL_PIECES - 1;
+        let moves = 0;
+        let gameWon = false;
+
+        const puzzleContainer = document.getElementById('puzzle');
+        const movesDisplay = document.getElementById('moves');
+        const victoryOverlay = document.getElementById('victory');
+        const finalMovesDisplay = document.getElementById('final-moves');
+        const btnShuffle = document.getElementById('btn-embaralhar');
+        const btnClose = document.getElementById('btn-fechar');
+
+        function initGame() {
+            pieces = [];
+            for (let i = 0; i < TOTAL_PIECES; i++) {
+                pieces.push(i);
+            }
+            emptyIndex = TOTAL_PIECES - 1;
+            moves = 0;
+            gameWon = false;
+            updateMoves();
+            renderPuzzle();
+            shufflePuzzle();
+        }
+
+        function renderPuzzle() {
+            puzzleContainer.innerHTML = '';
+            
+            // Tamanho fixo das pecas (100px desktop, 80px mobile)
+            const isMobile = window.innerWidth <= 600;
+            const pieceSize = isMobile ? 80 : 100;
+            const totalImageSize = pieceSize * GRID_SIZE;
+            
+            pieces.forEach((piece, index) => {
+                const div = document.createElement('div');
+                div.className = 'puzzle-piece';
+                div.dataset.index = index;
+                
+                if (piece === TOTAL_PIECES - 1) {
+                    div.classList.add('empty');
+                } else {
+                    const originalRow = Math.floor(piece / GRID_SIZE);
+                    const originalCol = piece % GRID_SIZE;
+                    const bgX = originalCol * pieceSize;
+                    const bgY = originalRow * pieceSize;
+                    
+                    div.style.backgroundImage = `url("${FOTO_URL}")`;
+                    div.style.backgroundSize = `${totalImageSize}px ${totalImageSize}px`;
+                    div.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+                }
+                
+                div.addEventListener('click', () => handleClick(index));
+                puzzleContainer.appendChild(div);
+            });
+            
+            highlightMovablePieces();
+        }
+
+        function highlightMovablePieces() {
+            const movable = getMovableIndices();
+            const allPieces = document.querySelectorAll('.puzzle-piece');
+            
+            allPieces.forEach((piece, index) => {
+                piece.classList.remove('movable');
+                if (movable.includes(index)) {
+                    piece.classList.add('movable');
+                }
+            });
+        }
+
+        function getMovableIndices() {
+            const movable = [];
+            const emptyRow = Math.floor(emptyIndex / GRID_SIZE);
+            const emptyCol = emptyIndex % GRID_SIZE;
+            
+            if (emptyRow > 0) movable.push(emptyIndex - GRID_SIZE);
+            if (emptyRow < GRID_SIZE - 1) movable.push(emptyIndex + GRID_SIZE);
+            if (emptyCol > 0) movable.push(emptyIndex - 1);
+            if (emptyCol < GRID_SIZE - 1) movable.push(emptyIndex + 1);
+            
+            return movable;
+        }
+
+        function handleClick(index) {
+            if (gameWon) return;
+            
+            const movable = getMovableIndices();
+            
+            if (movable.includes(index)) {
+                [pieces[index], pieces[emptyIndex]] = [pieces[emptyIndex], pieces[index]];
+                emptyIndex = index;
+                moves++;
+                updateMoves();
+                renderPuzzle();
+                
+                if (checkWin()) {
+                    gameWon = true;
+                    setTimeout(showVictory, 500);
+                }
+            }
+        }
+
+        function updateMoves() {
+            movesDisplay.textContent = moves;
+        }
+
+        function checkWin() {
+            for (let i = 0; i < TOTAL_PIECES; i++) {
+                if (pieces[i] !== i) return false;
+            }
+            return true;
+        }
+
+        function shufflePuzzle() {
+            // Reseta para o estado resolvido primeiro
+            pieces = [];
+            for (let i = 0; i < TOTAL_PIECES; i++) {
+                pieces.push(i);
+            }
+            emptyIndex = TOTAL_PIECES - 1;
+            
+            // Faz 50 movimentos aleatorios validos (suficiente para 3x3)
+            let lastMove = -1;
+            for (let i = 0; i < 50; i++) {
+                const movable = getMovableIndices().filter(idx => idx !== lastMove);
+                const randomIndex = movable[Math.floor(Math.random() * movable.length)];
+                lastMove = emptyIndex;
+                [pieces[randomIndex], pieces[emptyIndex]] = [pieces[emptyIndex], pieces[randomIndex]];
+                emptyIndex = randomIndex;
+            }
+            
+            // Garante que nao esta resolvido
+            if (checkWin()) {
+                const movable = getMovableIndices();
+                const randomIndex = movable[0];
+                [pieces[randomIndex], pieces[emptyIndex]] = [pieces[emptyIndex], pieces[randomIndex]];
+                emptyIndex = randomIndex;
+            }
+            
+            moves = 0;
+            gameWon = false;
+            updateMoves();
+            renderPuzzle();
+        }
+
+        function showVictory() {
+            finalMovesDisplay.textContent = moves;
+            victoryOverlay.classList.add('show');
+            createHearts();
+        }
+
+        function createHearts() {
+            const colors = ['#ff6b9d', '#ff8fab', '#ffb3c6', '#c44569'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '&#10084;';
+                    heart.style.cssText = `
+                        position: fixed;
+                        font-size: ${Math.random() * 20 + 15}px;
+                        color: ${colors[Math.floor(Math.random() * colors.length)]};
+                        left: ${Math.random() * 100}vw;
+                        top: 100vh;
+                        pointer-events: none;
+                        z-index: 1001;
+                        animation: floatUp 4s ease-out forwards;
+                    `;
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 150);
+            }
+        }
+
+        function closeVictory() {
+            victoryOverlay.classList.remove('show');
+            setTimeout(() => {
+                shufflePuzzle();
+            }, 300);
+        }
+
+        btnShuffle.addEventListener('click', shufflePuzzle);
+        btnClose.addEventListener('click', closeVictory);
+
+        window.addEventListener('resize', () => {
+            if (!gameWon) {
+                renderPuzzle();
+            }
+        });
+
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>
