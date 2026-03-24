@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="resources/image/coree.png" type="image/x-icon" />
+    <title>9 Meses Juntos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .voltar {
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            color: #ff6b9d;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid #ff6b9d;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .voltar:hover {
+            background: #ff6b9d;
+            color: #1a1a2e;
+        }
+
+        .icone-coracao {
+            font-size: 3rem;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            animation: heartPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .mensagem {
+            background: rgba(255, 107, 157, 0.08);
+            border: 1px solid rgba(255, 107, 157, 0.2);
+            border-radius: 20px;
+            padding: 35px 30px;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .mensagem p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #d0d0d0;
+            margin-bottom: 10px;
+        }
+
+        .mensagem p:last-child {
+            margin-bottom: 0;
+        }
+
+        .mensagem .destaque {
+            color: #ff6b9d;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .download-area {
+            animation: fadeIn 1s ease 0.8s both;
+        }
+
+        .download-area p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(255, 107, 157, 0.6);
+        }
+
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        .btn-download svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        .nota {
+            margin-top: 25px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Particulas flutuantes */
+        .particula {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .voltar {
+                position: relative;
+                left: auto;
+                top: auto;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            .mensagem {
+                padding: 25px 20px;
+            }
+
+            .mensagem p {
+                font-size: 1.05rem;
+            }
+
+            .btn-download {
+                padding: 16px 30px;
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard.html" class="voltar">Voltar</a>
+
+        <div class="icone-coracao">&#10084;</div>
+
+        <h1>10 Meses Juntos</h1>
+
+        <div class="mensagem">
+            <p>Feliz 10 meses, meu amor.</p>
+            <p>Cada dia que passa com junto com você eu te amo mais,</p>
+            <p>e dessa vez a surpresa essa melhorada...</p>
+            <p class="destaque">(fiz meu melhor)</p>
+        </div>
+
+        <div class="download-area">
+            <p>Espero que goste:</p>
+            <!-- Coloque o arquivo .apk na mesma pasta ou altere o caminho abaixo -->
+            <a href="LoveApp2.apk" download class="btn-download">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                Baixar
+            </a>
+            <p class="nota">Arquivo .apk — instala no celular Android</p>
+        </div>
+    </div>
+
+    <script>
+        // Particulas flutuantes no fundo
+        function criarParticulas() {
+            const cores = ['#ff6b9d', '#c44569', '#ff8fab', '#ffb3c6'];
+            const simbolos = ['\u2764', '\u2665', '\u2726', '\u2727'];
+
+            for (let i = 0; i < 15; i++) {
+                const el = document.createElement('div');
+                el.className = 'particula';
+                el.textContent = simbolos[Math.floor(Math.random() * simbolos.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 14 + 10) + 'px';
+                el.style.color = cores[Math.floor(Math.random() * cores.length)];
+                el.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                document.body.appendChild(el);
+            }
+        }
+
+        criarParticulas();
+    </script>
+</body>
+</html>
